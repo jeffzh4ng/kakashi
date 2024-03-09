@@ -1,35 +1,59 @@
 use crate::num::Nat;
 
-pub enum List<T> {
+#[derive(Default, Clone, PartialEq)]
+pub enum List<V> {
+    #[default]
     None,
-    Some(T, Box<Self>),
+    Some(V, Box<Self>),
 }
 
-impl<T> List<T> {
+impl<V> List<V> {
     // constructors
-    fn new() -> List<T> {
+    fn new() -> List<V> {
         todo!()
     }
 
-    fn append(&self, other: List<T>) -> List<T> {
+    fn append(&self, other: List<V>) -> List<V> {
         todo!()
     }
 
     // accessors
-    fn first(&self) -> T {
+    fn first(&self) -> V {
         todo!()
     }
 
-    fn rest(&self) -> List<T> {
+    fn rest(&self) -> List<V> {
         todo!()
     }
 
     // queries
-    fn exists(t: T) -> bool {
+    fn exists(t: V) -> bool {
         todo!()
     }
 
     fn length(&self) -> Nat {
+        todo!()
+    }
+}
+
+impl<V> std::fmt::Debug for List<V> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::None => write!(f, "None"),
+            Self::Some(arg0, arg1) => f.debug_tuple("Some").field(arg0).field(arg1).finish(),
+        }
+    }
+}
+
+impl<V> IntoIterator for List<V>
+where
+    V: Ord,
+{
+    type Item;
+
+    type IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
         todo!()
     }
 }

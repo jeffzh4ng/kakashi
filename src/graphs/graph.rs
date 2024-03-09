@@ -1,6 +1,21 @@
 use super::list::List;
 
-pub struct Graph<V> {
+trait Graph<V> {
+    fn new() -> Self;
+
+    fn union(&self, other: Self) -> Self;
+
+    fn neighbors(&self, v: V) -> List<(V, V)>;
+
+    fn single_node_search(&self, v: V) -> bool;
+
+    fn double_node_search(&self, start: V, found: fn(V) -> bool) -> Option<List<V>>;
+
+    fn top_sort(&self);
+}
+
+#[derive(Default, Clone, PartialEq)]
+pub struct AssociationListGraph<V> {
     pub vertices: List<V>,
     pub edges: List<(V, V)>,
 }
@@ -17,7 +32,7 @@ pub struct Graph<V> {
 // sort
 //  - topological sort
 
-impl<V> Graph<V> {
+impl<V> Graph<V> for AssociationListGraph<V> {
     fn new() -> Self {
         todo!()
     }
@@ -39,6 +54,28 @@ impl<V> Graph<V> {
     }
 
     fn top_sort(&self) {
+        todo!()
+    }
+}
+
+impl<V> std::fmt::Debug for AssociationListGraph<V> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Graph")
+            .field("vertices", &self.vertices)
+            .field("edges", &self.edges)
+            .finish()
+    }
+}
+
+impl<V> IntoIterator for AssociationListGraph<V>
+where
+    V: Ord,
+{
+    type Item;
+
+    type IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
         todo!()
     }
 }
