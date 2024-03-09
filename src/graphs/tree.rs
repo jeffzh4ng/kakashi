@@ -8,6 +8,7 @@ pub enum Tree<V> {
 
 // constructor:
 // - new
+// - insert
 // - union
 
 // queries:
@@ -18,6 +19,10 @@ pub enum Tree<V> {
 
 impl<V> Tree<V> {
     fn new() -> Self {
+        todo!()
+    }
+
+    fn insert(&mut self, v: V) -> Self {
         todo!()
     }
 

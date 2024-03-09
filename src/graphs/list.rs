@@ -7,17 +7,24 @@ pub enum List<V> {
     Some(V, Box<Self>),
 }
 
+// constructor:
+// - new
+// - apppend
+// - union
+
 impl<V> List<V> {
-    // constructors
     fn new() -> List<V> {
         todo!()
     }
 
-    fn append(&self, other: List<V>) -> List<V> {
+    fn append(&mut self, v: V) -> List<V> {
         todo!()
     }
 
-    // accessors
+    fn union(&self, other: List<V>) -> Self {
+        todo!()
+    }
+
     fn first(&self) -> V {
         todo!()
     }
@@ -26,7 +33,6 @@ impl<V> List<V> {
         todo!()
     }
 
-    // queries
     fn exists(t: V) -> bool {
         todo!()
     }

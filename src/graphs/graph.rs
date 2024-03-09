@@ -3,6 +3,8 @@ use super::list::List;
 trait Graph<V> {
     fn new() -> Self;
 
+    fn insert(v: V, edges: List<(V, V)>) -> Self;
+
     fn union(&self, other: Self) -> Self;
 
     fn neighbors(&self, v: V) -> List<(V, V)>;
@@ -22,6 +24,7 @@ pub struct AssociationListGraph<V> {
 
 // constructor:
 // - new
+// - insert
 // - union
 
 // queries:
@@ -34,6 +37,10 @@ pub struct AssociationListGraph<V> {
 
 impl<V> Graph<V> for AssociationListGraph<V> {
     fn new() -> Self {
+        todo!()
+    }
+
+    fn insert(v: V, edges: List<(V, V)>) -> Self {
         todo!()
     }
 
