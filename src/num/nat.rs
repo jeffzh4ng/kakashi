@@ -1,6 +1,8 @@
 use super::Num;
 
+#[derive(Debug, Default, Clone, PartialEq)]
 pub enum Nat {
+    #[default]
     Z,
     S(Box<Nat>),
 }

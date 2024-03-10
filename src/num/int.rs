@@ -1,5 +1,6 @@
 use super::Num;
 
+#[derive(Debug, Default, Clone, PartialEq)]
 pub enum Int {}
 
 impl Num for Int {
