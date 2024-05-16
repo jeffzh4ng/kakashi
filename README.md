@@ -28,12 +28,7 @@ emphasis on correctness (pbt and verification) and performance (vectorization).
 *Graphs*
 
 ### References
-**TAOCP + CLRS Alternatives**
-- Kleinburg and Tardos
-- Erickson
-- DPV
-
-**Linear Algebra**
+**Algebra**
 - Strang
 - Axler
 - Treil
@@ -41,7 +36,18 @@ emphasis on correctness (pbt and verification) and performance (vectorization).
 - Ström, Åström, Akenine-Möller
 - Margalit, Rabinoff
 
-**Intractable Problems**
+**Analysis**
+- Abbot
+- Rudin
+- Spivak
+- Tao
+
+**Algorithms (TAOCP + CLRS Alternatives)**
+- Kleinburg and Tardos
+- Erickson
+- DPV
+
+**Intractability**
 - Demaine, Gasarch, Hajiaghayi
 - Hearn, Demaine
 - Garey, Johnson
