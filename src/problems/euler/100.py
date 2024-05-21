@@ -23,3 +23,30 @@ def solve_two():
             sum += y
 
     return sum
+
+
+def solve_four():
+    def palindrome(terms):
+        n = str(terms[0]*terms[1])
+        i = 0
+        j = len(n)-1
+
+        palin = True
+        while (i <= j):
+            if n[i] != n[j]:
+                palin = False
+                break
+            i += 1
+            j -= 1
+
+        return terms[0]*terms[1] if palin else -1
+
+    x = 100
+    y = 100
+
+    output = sorted(filter(
+        lambda x: x > 0,
+        map(palindrome, [(i, j)
+                         for i in range(100, 1000) for j in range(100, 1000)])))
+
+    return output[-1]
