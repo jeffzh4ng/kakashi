@@ -308,3 +308,28 @@ def solve_thirteen():
                                                    for i in range(0, len(nums), 50)]])
 
     return str(nums_parsed)[:10]
+
+
+def solve_fourteen():
+    def collatz(n):
+        seq = [n]
+
+        while seq[-1] != 1:
+            if seq[-1] % 2 == 0:
+                seq.append(seq[-1]/2)
+            else:
+                seq.append(3*seq[-1]+1)
+
+        return seq
+
+    max_collatz = 0
+    output = 0
+
+    for i in range(13, int(1e6+1)):
+        c = collatz(i)
+
+        if (len(c) > max_collatz):
+            max_collatz = len(c)
+            output = i
+
+    return output
