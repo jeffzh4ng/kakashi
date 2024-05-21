@@ -1,8 +1,8 @@
-import functools
+from functools import reduce
 
 
 def solve_one():
-    return functools.reduce(
+    return reduce(
         lambda x, y: x+y,
         filter(lambda x: x % 3 == 0 or x % 5 == 0, range(1000))
     )
@@ -68,3 +68,10 @@ def solve_five():
             n += 1
 
     return n
+
+
+def solve_six():
+    sum_of_sqs = reduce(lambda x, y: x + y, [pow(x, 2) for x in range(1, 101)])
+    sq_of_sums = pow(reduce(lambda x, y: x + y, [x for x in range(1, 101)]), 2)
+
+    return sq_of_sums - sum_of_sqs
