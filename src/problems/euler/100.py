@@ -333,3 +333,28 @@ def solve_fourteen():
             output = i
 
     return output
+
+
+def solve_fifteen():
+    routes = dict()
+
+    def solve(i, j):
+        if i == 20 and j == 20:
+            routes[f"({i},{j})"] = 1
+            return
+        elif i > 20 or j > 20:
+            return
+        else:
+            if f"({i+1},{j})" not in routes:
+                solve(i+1, j)
+            if f"({i},{j+1})" not in routes:
+                solve(i, j+1)
+
+            a = routes[f"({i+1},{j})"] if i+1 < 21 else 0
+            b = routes[f"({i},{j+1})"] if j+1 < 21 else 0
+
+            routes[f"({i},{j})"] = a + b
+
+    solve(0, 0)
+
+    return routes["(0, 0)"]
