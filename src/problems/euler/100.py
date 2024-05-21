@@ -358,3 +358,8 @@ def solve_fifteen():
     solve(0, 0)
 
     return routes["(0, 0)"]
+
+
+def solve_sixteen():
+    n = list(str(pow(2, 1000)))
+    return reduce(lambda x, y: int(x)+int(y), n)
