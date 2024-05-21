@@ -111,3 +111,14 @@ def solve_eight():
         j += 1
 
     return output
+
+
+def solve_nine():
+    def prop_one(a, b, c): return a < b and b < c
+    def prop_two(a, b, c): return pow(a, 2) + pow(b, 2) == pow(c, 2)
+
+    for i in range(1000):
+        for j in range(i, 1000):
+            for k in range(j, 1000):
+                if i+j+k == 1000 and prop_one(i, j, k) and prop_two(i, j, k):
+                    return i*j*k
