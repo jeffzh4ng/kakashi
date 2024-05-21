@@ -50,3 +50,21 @@ def solve_four():
                          for i in range(100, 1000) for j in range(100, 1000)])))
 
     return output[-1]
+
+
+# revisit with prime factorization
+def solve_five():
+    n = 21
+    while True:
+        divides_all = True
+        for i in range(1, 21):
+            if n % i != 0:
+                divides_all = False
+
+        if divides_all:
+            break
+        else:
+            print(n, "nope")
+            n += 1
+
+    return n
