@@ -363,3 +363,46 @@ def solve_fifteen():
 def solve_sixteen():
     n = list(str(pow(2, 1000)))
     return reduce(lambda x, y: int(x)+int(y), n)
+
+
+def solve_seventeen():
+    ones = {1: "one", 2: "two", 3: "three", 4: "four",
+            5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine"}
+
+    tens = {2: "twenty", 3: "thirty", 4: "forty", 5: "fifty",
+            6: "sixty", 7: "seventy", 8: "eighty", 9: "ninety"}
+
+    hundreds = {1: "onehundred", 2: "twohundred", 3: "threehundred", 4: "fourhundred", 5: "fivehundred",
+                6: "sixhundred", 7: "sevenhundred", 8: "eighthundred", 9: "ninehundred"}
+
+    output = 0
+    for i in range(1, 1001):
+        if i < 10:
+            ones_len = len(ones[i])
+            output += ones_len
+            print(i, ones_len)
+
+        elif i >= 20 and i < 100:
+            ones_len = len(ones[i % 10]) if i % 10 in ones else 0
+            tens_len = len(tens[i // 10]) if i // 10 in tens else 0
+
+            print(i, ones_len, tens_len)
+
+            output += ones_len + tens_len
+
+        elif i >= 100 and i < 1000:
+            ones_len = len(ones[i % 10]) if i % 10 in ones else 0
+            tens_len = len(tens[(i % 100) // 10]) if (i %
+                                                      100) // 10 in tens else 0
+            hundreds_len = len(hundreds[i // 100]
+                               ) if i // 100 in hundreds else 0
+
+            print(i, ones_len, tens_len, hundreds_len)
+
+            output += ones_len + tens_len + hundreds_len + len("and")
+
+    rest = ["ten", "eleven", "twelve", "thirteen", "fourteen",
+            "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "onethousand"]
+
+    output += reduce(lambda x, y: x+y,  map(len, rest))
+    return output
