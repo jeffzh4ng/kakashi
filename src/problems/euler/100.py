@@ -1,6 +1,7 @@
 from functools import reduce
 from math import factorial, log10
 from itertools import permutations
+from enum import Enum
 
 
 def solve_one():
@@ -437,3 +438,77 @@ def solve_twenty_five():
         i += 1
 
     return i
+
+
+def solve_twenty_eight():
+    def spirals(n):
+        left = (0, -1)
+        right = (0, 1)
+        up = (-1, 0)
+        down = (1, 0)
+
+        nums = [x for x in range(1, (n*n)+1)]
+        grid = [[0 for j in range(n)] for i in range(n)]
+
+        dir = left
+        i = 0
+        j = n-1
+
+        left_bound = -1
+        right_bound = n
+        upper_bound = -1
+        lower_bound = n
+
+        while (i > upper_bound and i < lower_bound) and (j > left_bound and j < right_bound):
+            # continue placing elems
+            e = nums.pop()
+            grid[i][j] = e
+
+            # if next step crossed boundaries:
+            if (i + dir[0] == upper_bound or i + dir[0] == lower_bound) or (j + dir[1] == left_bound or j + dir[1] == right_bound):
+                # change dir
+                match dir:
+                    case (0, -1):
+                        upper_bound += 1
+                        dir = down
+                    case (1, 0):
+                        left_bound += 1
+                        dir = right
+                    case (0, 1):
+                        lower_bound -= 1
+                        dir = up
+                    case (-1, 0):
+                        right_bound -= 1
+                        dir = left
+
+                if (i + dir[0] == upper_bound or i + dir[0] == lower_bound) or (j + dir[1] == left_bound or j + dir[1] == right_bound):
+                    break  # stop
+
+            i += dir[0]
+            j += dir[1]
+
+        return grid
+
+    def diags(grid):
+        first_diag = []
+        second_diag = []
+
+        center = len(grid[0]) // 2
+
+        j = 0
+        for i in range(len(grid)):
+            first_diag.append(grid[i][j])
+            j += 1
+
+        j = len(grid[i])-1
+        for i in range(len(grid)):
+            if i == center and j == center:
+                j -= 1
+                continue  # don't double count the center
+            else:
+                second_diag.append(grid[i][j])
+                j -= 1
+
+        return first_diag + second_diag
+
+    return reduce(lambda x, y: x + y, diags(spirals(1001)))
