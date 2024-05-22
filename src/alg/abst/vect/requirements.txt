@@ -1,4 +1,0 @@
-attrs==23.2.0
-hypothesis==6.102.4
-numpy==1.26.4
-sortedcontainers==2.4.0
