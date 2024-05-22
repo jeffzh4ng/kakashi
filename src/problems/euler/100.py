@@ -1,5 +1,6 @@
 from functools import reduce
 from math import factorial
+from itertools import permutations
 
 
 def solve_one():
@@ -417,3 +418,7 @@ def solve_twenty_two():
     f = open("names.txt", "r")
     return reduce(lambda x, y: x + y, map(lambda enum_tup: (enum_tup[0]+1) * reduce(lambda x, y: x + ord(y)-64,
                                                                                     [*enum_tup[1]], 0), enumerate(sorted(list(map(lambda x: x[1:-1], f.read().split(",")))))))
+
+
+def solve_twenty_four():
+    return sorted(permutations([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))[999999]
