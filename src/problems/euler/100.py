@@ -1,4 +1,5 @@
 from functools import reduce
+from math import factorial
 
 
 def solve_one():
@@ -404,5 +405,9 @@ def solve_seventeen():
     rest = ["ten", "eleven", "twelve", "thirteen", "fourteen",
             "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "onethousand"]
 
-    output += reduce(lambda x, y: x+y,  map(len, rest))
+    output += reduce(lambda x, y: x+len(y), rest, 0)
     return output
+
+
+def solve_twenty():
+    print(reduce(lambda x, y: int(x) + int(y), str(factorial(100))))
