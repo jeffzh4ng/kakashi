@@ -1,5 +1,5 @@
 from functools import reduce
-from math import factorial
+from math import factorial, log10
 from itertools import permutations
 
 
@@ -422,3 +422,18 @@ def solve_twenty_two():
 
 def solve_twenty_four():
     return sorted(permutations([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))[999999]
+
+
+def solve_twenty_five():
+    a = 1
+    b = 1
+
+    i = 2
+    while int(log10(b))+1 < 1000:
+        tmp = b
+        b = b + a
+        a = tmp
+
+        i += 1
+
+    return i
