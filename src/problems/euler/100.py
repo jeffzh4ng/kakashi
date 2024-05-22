@@ -411,3 +411,9 @@ def solve_seventeen():
 
 def solve_twenty():
     print(reduce(lambda x, y: int(x) + int(y), str(factorial(100))))
+
+
+def solve_twenty_two():
+    f = open("names.txt", "r")
+    return reduce(lambda x, y: x + y, map(lambda enum_tup: (enum_tup[0]+1) * reduce(lambda x, y: x + ord(y)-64,
+                                                                                    [*enum_tup[1]], 0), enumerate(sorted(list(map(lambda x: x[1:-1], f.read().split(",")))))))
