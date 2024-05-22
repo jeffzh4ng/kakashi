@@ -512,3 +512,14 @@ def solve_twenty_eight():
         return first_diag + second_diag
 
     return reduce(lambda x, y: x + y, diags(spirals(1001)))
+
+
+def solve_twenty_nine():
+    state = set()
+
+    for i in range(2, 101):
+        for j in range(2, 101):
+            n = pow(i, j)
+            state.add(n)
+
+    return len(state)
