@@ -21,3 +21,19 @@ def solve_two():
     output = reduce(lambda x, y: x - y, inp, (n*(n+1))//2)
 
     return output
+
+
+def solve_three():
+    inp = input()
+
+    max_count = 1
+    cur_count = 1
+    for i in range(1, len(inp)):
+        if inp[i] == inp[i-1]:
+            cur_count += 1
+        else:
+            max_count = max(max_count, cur_count)
+            cur_count = 1
+
+    max_count = max(max_count, cur_count)
+    return max_count
