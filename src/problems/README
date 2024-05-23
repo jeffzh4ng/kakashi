@@ -1,16 +1,18 @@
 # Problems
 
 **Roadmap**
-1. Advent of Code
-2. Project Euler
-3. CSES
-4. USACO
-5. Codeforces
+1. Project Euler
+2. CSES
+3. Codeforces
 
 **References**
-- Skiena
-- TAOCP/Kleinburg,Tardos/Erickson/DPV
-- CP4/CSES
+- CSES
+- CP4
+- Andreescu
+- TAOCP
+- Kleinburg, Tardos
+- Erickson
+- DPV
 - Demaine, Gasarch, Hajiaghayi
 - Hearn, Demaine
 - Garey, Johnson- Aaronson
