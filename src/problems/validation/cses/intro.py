@@ -156,3 +156,83 @@ def solve_six():
 # ----------(2,3) -> 8
 # ----------(1,1) -> 1
 # ----------(4,2) -> 15
+
+def solve_seven():
+    n = int(input())
+
+    # 8 possible choices for second k2
+    k2_attack_vectors = [
+        [-2, -1], [-2, 1],
+        [-1, -2], [-1, 2],
+        [1, -2], [1, 2],
+        [2, -1], [2, 1]
+    ]
+
+    output = []
+    for k in range(2, n+1):
+        candidates = factorial(k*k)//(factorial(2) * (factorial((k*k)-2)))
+        grid = [[0 for _ in range(k)] for _ in range(k)]
+        # print(candidates)
+
+        legal_k2_attacks = set()
+        for i in range(len(grid)):
+            for j in range(len(grid[i])):
+                for coord in k2_attack_vectors:
+                    if (i + coord[0] >= 0 and i + coord[0] < len(grid)) and (j + coord[1] >= 0 and j + coord[1] < len(grid[i])):
+                        if i+j < ((i+coord[0])+(j+coord[1])):
+                            legal_k2_attacks.add(
+                                f"({i},{j})-({i+coord[0]},{j+coord[1]})")
+                        else:
+                            legal_k2_attacks.add(
+                                f"({i+coord[0]},{j+coord[1]})-({i},{j})")
+
+        output.append(candidates-(len(legal_k2_attacks)))
+
+    return output
+
+
+# for x in solve_seven():
+#     print(x)
+
+# idea 1: (#ways to place 2 knights)-(#ways to place 2 attacking nights)
+
+# k = 1 -------> (1 choose 2) = 0
+# 0
+
+# k = 2
+# 00 -----> (4 choose 2) = (4*3*2*1)/2*(4-2)!
+# 00                     = 24/4 = 6 (24 perms, remove the double counts of 0s/1s)
+
+# k = 3
+# 000------> (9 choose 2) = 9!/2!(7!)
+# 000                     = 36 - |illegal board states|(8)
+# 000                     = 28
+
+
+# k = 4 -----> (25 choose 2) = 300 - |illegal board states|(204)
+#                            = 96
+
+# is there a way to analytically count #illegal board states without enumeration?
+# --> is there a way to count #illegal board states with step rule?
+# --> first knight: n! choices
+# --> second knight:
+
+
+#  0 K 0 K 0
+#  K 0 0 0 K
+#  0 0 k 0 0
+#  K 0 0 0 K
+#  0 K 0 K 0
+
+# 8 possible choices for second K, assuming k is placed in center
+# k2_vectors = [
+#     [-2, -1], [-2, 1],
+#     [-1, -2], [-1, 2],
+#     [1, -2], [1, 2],
+#     [2, -1], [2, 1]
+# ]
+
+# counting legal_k2 attacks through k1(i,j) enumeration ---> TLE
+
+
+# idea 2: same, but count second term analytically, not through k1(i,j) enumeration
