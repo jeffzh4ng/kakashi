@@ -107,55 +107,58 @@ def solve_five():
 # - selectively pick each answer globally, not at each i.
 #   - place the evens, then the odds
 
+# 2 3 -> 8
+# 1 1 -> 1
+# 4 2 -> 15
+
+# https://www.youtube.com/watch?v=KOJTK0W1CzA&list=PLjyTwPYGTd7QOG1jLIIs_RkYkFJpj27h4&index=5
+# https://www.youtube.com/watch?v=6B5xEU8-jaA&list=PLjyTwPYGTd7QOG1jLIIs_RkYkFJpj27h4&index=7
+
 
 def solve_six():
     n = int(input())
     inp = []
     for _ in range(n):
-        tmp = list(map(lambda x: int(x)-1, input().split(" ")))
+        tmp = list(map(lambda x: int(x), input().split(" ")))
         inp.append(tmp)
 
-    mx = reduce(lambda mx, coord: max(mx, max(coord[0], coord[1])), inp, 0)
-
-    # pivots = [1]
-    # step = 2
-    # for i in range(mx+1):
-    #     pivots.append(pivots[-1] + step)
-    #     step += 2
-
+    print(inp)
     output = []
-    for c in inp:
-        if c[0] > c[1]:  # offset is vertical
-            if c[0] % 2 == 0:  # offset is upwards
-                p = 1 + (step+2)
-                offset = c[1] - c[0]
-                output.append(p + offset)
-            else:  # offset is downwards
-                offset = c[1] - c[0]
-                output.append(p - offset)
 
-        else:  # offset is horizontal
-            if c[0] % 2 == 0:  # offset is leftwards
-                offset = c[0] - c[1]
-                output.append(p + offset)
-            else:  # offset is rightwards
-                offset = c[0] - c[1]
-                output.append(p - offset)
+    for c in inp:
+        if c[1] > c[0]:
+            base = (c[1]-1)*(c[1]-1)  # inner sq
+            print("base", base)
+
+            if c[1] % 2 == 0:
+                offset = c[0]  # offset is before half
+                output.append(base + offset)
+            else:
+                offset = (2*c[1])-c[0]  # offset is after half
+                output.append(base + offset)
+
+        else:
+            base = (c[0]-1)*(c[0]-1)  # inner sq
+            print("base", base)
+
+            if c[0] % 2 == 0:
+                offset = (2*c[0])-c[1]  # offset is after half
+                output.append(base + offset)
+            else:
+                offset = c[1]  # offset is before half
+                output.append(base + offset)
 
     return output
-
-
-# for x in print(solve_six()):
-#     print(x)
-
 
 # idea 1: generate number spiral through enumeration --> TLE
 # idea 2: smaller generation space: generate pivots --> TLE
 # idea 3: O(logn)? can we divide the search space by half?
-# idea 4: analytical sol?
+# idea 4: analytical sol? yes, the analytical sol involves x^2. NOT pivots.
+
 # ----------(2,3) -> 8
 # ----------(1,1) -> 1
 # ----------(4,2) -> 15
+
 
 def solve_seven():
     n = int(input())
@@ -266,7 +269,7 @@ def solve_eight():
         print("NO")
 
 
-solve_eight()
+# solve_eight()
 
 
 # idea 1: gen all perms with splits, check if splits have same sum --> prob TLE
