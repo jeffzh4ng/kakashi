@@ -162,34 +162,12 @@ def solve_six():
 
 def solve_seven():
     n = int(input())
-
-    # 8 possible choices for second k2
-    k2_attack_vectors = [
-        [-2, -1], [-2, 1],
-        [-1, -2], [-1, 2],
-        [1, -2], [1, 2],
-        [2, -1], [2, 1]
-    ]
-
     output = []
     for k in range(2, n+1):
-        candidates = factorial(k*k)//(factorial(2) * (factorial((k*k)-2)))
-        grid = [[0 for _ in range(k)] for _ in range(k)]
-        # print(candidates)
+        cands = (k*k)*(k*k-1)/2
+        legal_k2_attacks = (8*(k-1)*(k-2))/2
 
-        legal_k2_attacks = set()
-        for i in range(len(grid)):
-            for j in range(len(grid[i])):
-                for coord in k2_attack_vectors:
-                    if (i + coord[0] >= 0 and i + coord[0] < len(grid)) and (j + coord[1] >= 0 and j + coord[1] < len(grid[i])):
-                        if i+j < ((i+coord[0])+(j+coord[1])):
-                            legal_k2_attacks.add(
-                                f"({i},{j})-({i+coord[0]},{j+coord[1]})")
-                        else:
-                            legal_k2_attacks.add(
-                                f"({i+coord[0]},{j+coord[1]})-({i},{j})")
-
-        output.append(candidates-(len(legal_k2_attacks)))
+        output.append(cands-legal_k2_attacks)
 
     return output
 
