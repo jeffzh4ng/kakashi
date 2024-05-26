@@ -261,3 +261,22 @@ def solve_eight():
 def solve_nine():
     n = int(input())
     return pow(2, n) % 1000000007
+
+# 20! = 20 * 10
+
+
+def solve_ten():
+    n = int(input())
+    n_fac = str(factorial(n))
+
+    i = len(n_fac)-1
+    count = 0
+    while n_fac[i] == "0":
+        count += 1
+        i -= 1
+
+    return count
+
+
+# idea 1: built in factorial --> TLE
+# idea 2:
