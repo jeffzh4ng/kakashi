@@ -220,8 +220,7 @@ def solve_seven():
 
 def solve_eight():
     n = int(input())
-
-    if n % 2 != 0:
+    if ((n*(n+1))//2) % 2 != 0:
         print("NO")
         return
 
@@ -229,15 +228,16 @@ def solve_eight():
 
     a = set()
     b = set()
+    sum_a = 0
+    sum_b = 0
 
     for x in reversed(inp):
-        sum_a = reduce(lambda x, y: x+y, a, 0)
-        sum_b = reduce(lambda x, y: x+y, b, 0)
-
         if sum_a < sum_b:
             a.add(x)
+            sum_a += x
         else:
             b.add(x)
+            sum_b += x
 
     sum_a = reduce(lambda x, y: x+y, a, 0)
     sum_b = reduce(lambda x, y: x+y, b, 0)
@@ -252,11 +252,12 @@ def solve_eight():
         print("NO")
 
 
-solve_eight()
-
-
 # idea 1: gen all perms with splits, check if splits have same sum --> prob TLE
 # idea 2: use even/odd property?
 # idea 3: use some analytical formula? sum = n(n+1)/2
 # idea 4: greedy: iterate 1..n, place elements in the set with less sum
 # idea 5: greedy: iterate n..1, place elements in the set with les sum-->TLE
+
+def solve_nine():
+    n = int(input())
+    return pow(2, n) % 1000000007
