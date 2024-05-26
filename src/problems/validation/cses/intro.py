@@ -1,5 +1,6 @@
 from sys import stdin
 from functools import reduce
+from math import factorial
 
 
 def solve_one():
@@ -105,3 +106,53 @@ def solve_five():
 # idea 3:
 # - selectively pick each answer globally, not at each i.
 #   - place the evens, then the odds
+
+
+def solve_six():
+    n = int(input())
+    inp = []
+    for _ in range(n):
+        tmp = list(map(lambda x: int(x)-1, input().split(" ")))
+        inp.append(tmp)
+
+    mx = reduce(lambda mx, coord: max(mx, max(coord[0], coord[1])), inp, 0)
+
+    # pivots = [1]
+    # step = 2
+    # for i in range(mx+1):
+    #     pivots.append(pivots[-1] + step)
+    #     step += 2
+
+    output = []
+    for c in inp:
+        if c[0] > c[1]:  # offset is vertical
+            if c[0] % 2 == 0:  # offset is upwards
+                p = 1 + (step+2)
+                offset = c[1] - c[0]
+                output.append(p + offset)
+            else:  # offset is downwards
+                offset = c[1] - c[0]
+                output.append(p - offset)
+
+        else:  # offset is horizontal
+            if c[0] % 2 == 0:  # offset is leftwards
+                offset = c[0] - c[1]
+                output.append(p + offset)
+            else:  # offset is rightwards
+                offset = c[0] - c[1]
+                output.append(p - offset)
+
+    return output
+
+
+# for x in print(solve_six()):
+#     print(x)
+
+
+# idea 1: generate number spiral through enumeration --> TLE
+# idea 2: smaller generation space: generate pivots --> TLE
+# idea 3: O(logn)? can we divide the search space by half?
+# idea 4: analytical sol?
+# ----------(2,3) -> 8
+# ----------(1,1) -> 1
+# ----------(4,2) -> 15
