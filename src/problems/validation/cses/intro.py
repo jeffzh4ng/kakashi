@@ -236,3 +236,41 @@ def solve_seven():
 
 
 # idea 2: same, but count second term analytically, not through k1(i,j) enumeration
+
+def solve_eight():
+    n = int(input())
+    inp = [i for i in range(1, n+1)]
+
+    a = set()
+    b = set()
+
+    for x in reversed(inp):
+        sum_a = reduce(lambda x, y: x+y, a, 0)
+        sum_b = reduce(lambda x, y: x+y, b, 0)
+
+        if sum_a < sum_b:
+            a.add(x)
+        else:
+            b.add(x)
+
+    sum_a = reduce(lambda x, y: x+y, a, 0)
+    sum_b = reduce(lambda x, y: x+y, b, 0)
+
+    if sum_a == sum_b:
+        print("YES")
+        print(len(a))
+        print(" ".join(map(str, list(a))))
+        print(len(b))
+        print(" ".join(map(str, list(b))))
+    else:
+        print("NO")
+
+
+solve_eight()
+
+
+# idea 1: gen all perms with splits, check if splits have same sum --> prob TLE
+# idea 2: use even/odd property?
+# idea 3: use some analytical formula? sum = n(n+1)/2
+# idea 4: greedy: iterate 1..n, place elements in the set with less sum
+# idea 5: greedy: iterate n..1, place elements in the set with les sum-->TLE
