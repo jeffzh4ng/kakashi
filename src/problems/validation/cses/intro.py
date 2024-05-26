@@ -317,3 +317,35 @@ def solve_eleven():
 # idea 3: analytic--skip when a=2*b or b=2*a
 # idea 4: analytic--even/odd?
 # idea 5: analytic--difference? (a-b)
+
+
+def solve_twelve():
+    s = input()
+    char_counts = reduce(
+        lambda m, c: {**m, c: m.get(c, 0) + 1}, list(s), dict())
+
+    odd_count = 0
+    odd_c = ""
+    for k, v in char_counts.items():
+        if v % 2 != 0:
+            odd_count += 1
+            odd_c = k*v
+
+    output = odd_c
+    if odd_count > 1:
+        print("NO SOLUTION")
+        return
+    else:
+        for k, v in char_counts.items():
+            if v % 2 != 0:
+                continue
+
+            count = v
+            while count > 0:
+                output = k + output + k
+                count -= 2
+
+    print(output)
+
+
+solve_twelve()
