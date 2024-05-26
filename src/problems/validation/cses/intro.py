@@ -52,9 +52,6 @@ def solve_four():
     return outp
 
 
-print(solve_four())
-
-
 # idea 1:
 # - walk through the list?
 #   - i: how would i know how to update i??
@@ -72,3 +69,39 @@ print(solve_four())
 # - what if i sum the numbers
 # - that's going to lose all the information though
 # - bad idea
+
+def solve_five():
+    n = int(input())
+    if n == 1:
+        return str(n)
+    elif n == 2 or n == 3:
+        return "NO SOLUTION"
+    else:
+        output = []
+
+        for i in [i for i in range(2, n+1, 2)]:
+            output.append(i)
+        for i in [i for i in range(1, n+1, 2)]:
+            output.append(i)
+
+        return " ".join(map(str, output))
+
+# exs
+# - solve_five(5) ==> 4 2 5 3 1
+# - solve_five(3) ==> "NO SOLUTION"
+
+# note: there might be sev solutions, so solve_five is a rel not a fun
+
+# idea 1:
+# - filter(lambda x: beautiful(x), gen_perms())
+#  - gen_perms is going to take O(n!) though ==> TLE
+#  - can we generate perms in a quicker way?
+
+# idea 2:
+# - is there some way to selectively pick the answer at each i?
+#   - is there some analytic solution here?
+#   - pick the middle, and then oscillate high and low vals?
+
+# idea 3:
+# - selectively pick each answer globally, not at each i.
+#   - place the evens, then the odds
