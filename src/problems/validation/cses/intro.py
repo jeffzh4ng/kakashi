@@ -280,3 +280,40 @@ def solve_ten():
 
 # idea 1: built in factorial --> TLE
 # idea 2:
+
+
+def solve_eleven():
+    n = int(input())
+    inp = []
+    for _ in range(n):
+        inp.append(list(map(int, input().split(" "))))
+
+    output = []
+    for i in inp:
+        left = i[0]
+        right = i[1]
+
+        if (right == left*2) or (left == right*2):
+            left = 0
+            right = 0
+
+        while left > 0 and right > 0:
+            if left < right:
+                left -= 1
+                right -= 2
+            else:
+                right -= 1
+                left -= 2
+
+        if left == 0 and right == 0:
+            output.append("YES")
+        else:
+            output.append("NO")
+
+    return output
+
+# idea 1: heuristic--take 1 off the side with the last amount, 2 off the other --> TLE
+# idea 2 heuristic--but take larger steps to 0?
+# idea 3: analytic--skip when a=2*b or b=2*a
+# idea 4: analytic--even/odd?
+# idea 5: analytic--difference? (a-b)
