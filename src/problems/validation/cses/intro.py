@@ -220,6 +220,11 @@ def solve_seven():
 
 def solve_eight():
     n = int(input())
+
+    if n % 2 != 0:
+        print("NO")
+        return
+
     inp = [i for i in range(1, n+1)]
 
     a = set()
@@ -247,7 +252,7 @@ def solve_eight():
         print("NO")
 
 
-# solve_eight()
+solve_eight()
 
 
 # idea 1: gen all perms with splits, check if splits have same sum --> prob TLE
