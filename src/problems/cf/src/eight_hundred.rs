@@ -1,4 +1,4 @@
-use std::{io, mem};
+use std::{collections::HashSet, io, mem};
 
 pub fn solve_1773_f() -> Result<(), io::Error> {
     let mut line_one = String::new();
@@ -130,6 +130,48 @@ pub fn solve_769_a() -> Result<(), io::Error> {
     };
 
     println!("{year}");
+
+    Ok(())
+}
+
+pub fn solve_421_a() -> Result<(), io::Error> {
+    let mut line_one = String::new();
+    let mut line_two = String::new();
+    let mut line_three = String::new();
+    io::stdin().read_line(&mut line_one)?;
+    io::stdin().read_line(&mut line_two)?;
+    io::stdin().read_line(&mut line_three)?;
+
+    let nab = line_one
+        .trim()
+        .split(" ")
+        .map(|x| x.parse::<i32>().unwrap())
+        .collect::<Vec<_>>();
+
+    let n = nab[0];
+    let _ = nab[1];
+    let _ = nab[2];
+
+    let a_indices: HashSet<i32> = HashSet::from_iter(
+        line_two
+            .trim()
+            .split(" ")
+            .map(|x| x.parse::<i32>().unwrap()),
+    );
+    // let b_indices: HashSet<i32> = HashSet::from_iter(
+    //     line_three
+    //         .trim()
+    //         .split(" ")
+    //         .map(|x| x.parse::<i32>().unwrap()),
+    // );
+
+    let output = (1..n + 1)
+        .into_iter()
+        .map(|i| if a_indices.contains(&i) { "1" } else { "2" })
+        .collect::<Vec<_>>()
+        .join(" ");
+
+    println!("{output}");
 
     Ok(())
 }
