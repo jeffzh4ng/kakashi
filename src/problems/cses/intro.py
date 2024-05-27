@@ -349,3 +349,10 @@ def solve_twelve():
 
 
 solve_twelve()
+
+# idea 1: hashmap -> TLE
+# idea 2: reorder through swaps?
+
+
+# AAAACACBA
+# AACABACAA

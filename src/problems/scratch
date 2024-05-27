@@ -1,0 +1,146 @@
+def solve_eighteen():
+    def calc_dir_vecs(grid, i, j, paths, path):
+        if len(path) == 4:
+            paths.append(path.copy())
+            return
+        elif i == len(grid) or j == len(grid[i]):
+            return
+        elif len(path) < 4:
+            path.append((i, j))
+            calc_dir_vecs(grid, i+1, j, paths, path)
+            calc_dir_vecs(grid, i+1, j+1, paths, path)
+            path.pop()
+
+    input = """
+                       75
+                      95 64
+                     17 47 82
+                    18 35 87 10
+                   20 04 82 47 65
+                  19 01 23 75 03 34
+                 88 02 77 73 07 63 67
+                99 65 04 28 06 16 70 92
+               41 41 26 56 83 40 80 70 33
+              41 48 72 33 47 32 37 16 94 29
+             53 71 44 65 25 43 91 52 97 51 14
+            70 11 33 28 77 73 17 78 39 68 17 57
+           91 71 52 38 17 14 91 43 58 50 27 29 48
+          63 66 04 68 89 53 67 30 73 16 69 87 40 31
+        04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
+        """
+
+    rows = map(lambda x: x.strip(), input.strip().split("\n"))
+    grid = [r.split(" ") for r in rows]
+    max_sum = 0
+
+    for i in range(len(grid)-3):
+        for j in range(len(grid[i])):
+            paths = []
+            calc_dir_vecs(grid, i, j, paths, [])
+
+            for path in paths:
+                sum = reduce(lambda x, y: x + int(grid[y[0]][y[1]]), path, 0)
+                max_sum = max(max_sum, sum)
+                print(i, j, sum, max_sum)
+
+
+solve_eighteen()
+
+
+def solve_twenty_six():
+    def subset_counts(n):
+        input = n
+        subsets = dict()
+        repeats = set()
+        recurs = set()
+
+        for i in range(len(input)):
+            for j in range(i+1, len(input)):
+                # check if input[i:j] is a repeat of a subset already in output
+
+                repeat = False
+                for subset in subsets.keys():
+                    cand = input[i:j]
+
+                    if cand == subset:
+                        continue
+
+                    while cand[:len(subset)] == subset:
+                        cand = cand[len(subset):]
+
+                    if len(cand) == 0:
+                        repeat = True
+                        repeats.add(subset)
+
+                    if repeat:
+                        break
+
+                if repeat:
+                    continue
+                else:
+                    if input[i:j] not in subsets:
+                        subsets[input[i:j]] = 0
+
+                    subsets[input[i:j]] += 1
+
+        for r in repeats:
+            for i in range(len(input)):
+                for j in range(i+1, len(input)):
+                    k = input.find(r)
+
+                    tmp = input[k:]
+                    while tmp[:len(r)] == r:
+                        tmp = tmp[len(r):]
+
+                    if tmp == "":
+                        recurs.add(r)
+
+        print(input, recurs)
+
+        return recurs
+
+    max_count = 0
+    d = 1
+    for i in range(1, 10):
+        n = 1/i
+        repeats = subset_counts(str(n)[2:])
+        max_local_count = reduce(lambda x, y: max(x, len(y)), repeats, 0)
+
+        if max_local_count > max_count:
+            max_count = max_local_count
+            d = i
+
+        print(str(n)[2:], repeats)
+        print('===========')
+
+    print(d)
+
+
+solve_twenty_six()
+
+
+def solve_thirty_one():
+    # n = 200
+    # nums = [200, 100, 50, 20, 10, 5, 2, 1]
+
+    # n = 10, nums = [5, 2, 1]
+
+    # 10, [3, 2, 1]
+    # -> 1, [2, 1]
+
+    def foo(n, input):
+        output = []
+        if n <= 0:
+            return output
+
+        if len(input) > 0:
+            f = input[0]
+            r = input[1:]
+
+            # try picking up f's
+            for i in range(1, n//f):
+                combs = foo(n-f*i, r)
+
+    # n = 200
+    # nums = [200, 100, 50, 20, 10, 5, 2, 1]
+    # foo(200, nums)
