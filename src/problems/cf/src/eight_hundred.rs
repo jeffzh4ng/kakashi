@@ -103,3 +103,33 @@ pub fn solve_1773_f() -> Result<(), io::Error> {
 //         - allocating b's goals in the first match ==> one draw (last match 0:0)
 //         - so what we start allocating b by beating the matches with least goals from a
 //         - how do we allocate two goals? at once, or via round robin fashion?
+
+pub fn solve_769_a() -> Result<(), io::Error> {
+    let mut line_one = String::new();
+    let mut line_two = String::new();
+
+    io::stdin().read_line(&mut line_one)?;
+    io::stdin().read_line(&mut line_two)?;
+
+    let n = line_one.trim().parse::<i32>().unwrap();
+    let mut years = line_two
+        .trim()
+        .split(" ")
+        .map(|x| x.parse::<i32>().unwrap())
+        .collect::<Vec<_>>();
+    years.sort();
+
+    let year = if n == 1 {
+        years[0]
+    } else if n == 3 {
+        years[1]
+    } else if n == 5 {
+        years[2]
+    } else {
+        panic!()
+    };
+
+    println!("{year}");
+
+    Ok(())
+}

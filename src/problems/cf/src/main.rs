@@ -1,5 +1,5 @@
-use cf::eight_hundred;
+use std::io;
 
 fn main() {
-    eight_hundred::solve_1773_f().unwrap();
+    println!("Hello world.")
 }
