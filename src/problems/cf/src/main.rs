@@ -1,6 +1,6 @@
-use cf::eight_hundred;
-use std::io;
+use cf::nine_hundred;
+// use std::io;
 
 fn main() {
-    eight_hundred::solve_421_a().unwrap();
+    nine_hundred::solve_1267_b().unwrap();
 }
