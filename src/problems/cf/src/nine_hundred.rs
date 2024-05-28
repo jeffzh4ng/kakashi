@@ -21,7 +21,14 @@ pub fn solve_1267_b() -> Result<(), io::Error> {
             // eliminating side segments is
             // not possible.
             let not_side_segment = l != 0 && r - 1 != inp.len() - 1;
-            if segment_at_least_length_two && not_side_segment {
+
+            // segments adjacent to current segment must contain
+            // the same character in order for the string to be
+            // completely eliminated
+            let adjacent_segments_same_char =
+                not_side_segment && (l - 1 > 0 && r + 1 < inp.len()) && inp[l - 1] == inp[r + 1];
+
+            if segment_at_least_length_two && not_side_segment && adjacent_segments_same_char {
                 output.push((l, r - 1));
             }
             l = r
@@ -108,7 +115,18 @@ pub fn solve_1267_b() -> Result<(), io::Error> {
     Ok(())
 }
 
-// how do we keep track of segment lengths?
+// idea 1: two pointers? -> O(SN) -> O(N^2) -> TLE
+// for s in segment:
+//   eliminate(s)
 
-// idea 1: two pointers?
-// idea 2:
+// idea 2: how can we skip work?
+
+//  segment:
+//  - can we filter out any more segments?
+//  - yes, we can filter out segments where input[l-1] != input[r+1]
+
+//   eliminate:
+//   - do we need to try eliminating every segment?
+//   - do we get any information of surrounding s_(i-1), s_(i+1) with s_(i)?
+
+// WWWBBOOBBWWW
