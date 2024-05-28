@@ -1,14 +1,15 @@
 use std::io;
 
 pub fn solve_1267_b() -> Result<(), io::Error> {
-    fn segments(inp: &str) -> Vec<(usize, usize)> {
-        let inp = inp.chars().collect::<Vec<_>>();
-        let mut output = Vec::new();
+    fn segments(inp: &str) -> (Vec<(char, usize)>, Vec<usize>) {
+        let input = inp.chars().collect::<Vec<_>>();
+        let mut input_c = Vec::new();
+        let mut segment_indices = Vec::new();
 
         let mut l = 0;
         let mut r = 0;
-        while l < inp.len() && r < inp.len() {
-            while r < inp.len() && inp[r] == inp[l] {
+        while l < input.len() && r < input.len() {
+            while r < input.len() && input[r] == input[l] {
                 r += 1
             }
 
@@ -20,102 +21,77 @@ pub fn solve_1267_b() -> Result<(), io::Error> {
             // forming elongated segments by
             // eliminating side segments is
             // not possible.
-            let not_side_segment = l != 0 && r - 1 != inp.len() - 1;
+            let not_side_segment = l != 0 && r - 1 != input.len() - 1;
 
             // segments adjacent to current segment must contain
             // the same character in order for the string to be
             // completely eliminated
             let adjacent_segments_same_char =
-                not_side_segment && (l - 1 > 0 && r + 1 < inp.len()) && inp[l - 1] == inp[r + 1];
+                not_side_segment && (l >= 1 && r + 1 < input.len()) && input[l - 1] == input[r + 1];
+
+            input_c.push((input[l], r - l));
 
             if segment_at_least_length_two && not_side_segment && adjacent_segments_same_char {
-                output.push((l, r - 1));
+                segment_indices.push(input_c.len() - 1);
             }
             l = r
         }
 
-        output
+        (input_c, segment_indices)
     }
 
-    fn eliminate(inp: String, l: usize, r: usize) -> Option<String> {
-        if inp.chars().nth(l) != inp.chars().nth(r) {
-            None
-        } else {
-            let left = inp.chars().take(l);
-            let right = inp
-                .chars()
-                .rev()
-                .take(inp.len() - 1 - r)
-                .collect::<Vec<_>>()
-                .into_iter()
-                .rev();
-            let output = left.chain(right);
-
-            Some(output.collect())
-        }
+    fn eliminate(mut input: Vec<(char, usize)>, i: usize) -> Vec<(char, usize)> {
+        input.remove(i);
+        input
     }
 
     let mut input = String::new();
     io::stdin().read_line(&mut input)?;
     let tmp = input.trim();
 
-    let mut output = 0;
-    for (l_start, r_start) in segments(tmp) {
-        let (mut l, mut r) = (l_start, r_start);
-        let mut cand = tmp.chars().collect::<Vec<_>>();
-        let choices = r - l + 2;
+    let (input_c, segment_indices) = segments(tmp);
+    if input_c.len() % 2 == 0 {
+        println!("0");
+        return Ok(());
+    }
 
+    for mut i in segment_indices {
+        let j = i;
+
+        let mut cand = input_c.clone();
         while cand.len() > 0 {
-            if let Some(cand_eliminated) = eliminate(cand.iter().collect(), l, r) {
-                // println!(
-                //     "{:?} ->eliminate-> {:?}",
-                //     cand.iter().collect::<String>(),
-                //     cand_eliminated
-                // );
-                cand = cand_eliminated.chars().collect::<Vec<_>>();
-                if cand.len() == 0 {
-                    break;
-                }
+            // println!("cand:{:?}, {i}", cand);
+            cand = eliminate(cand, i);
+            // println!("cand_eliminated:{:?}", cand);
 
-                // reset l and r
-                r = l;
-                if l > 0 {
-                    l = l - 1;
-                }
-
-                if cand[l] != cand[r] {
-                    break; // no segment was elongated
-                } else {
-                    // set l and r to the elongated segment
-                    while r < cand.len() - 1 && cand[r] == cand[r + 1] {
-                        r += 1;
-                    }
-                    while l > 0 && cand[l] == cand[l - 1] {
-                        l -= 1;
-                    }
-
-                    if r - l + 1 < 3 {
-                        // no segment was elongated by at least 3
-                        break;
-                    }
-                }
+            let side_segment = i == 0;
+            if side_segment {
+                break;
+            }
+            let no_segment_elongated = cand[i - 1].0 != cand[i].0;
+            let segment_elongated_less_than_three = cand[i - 1].1 + cand[i].1 < 3;
+            if cand.len() == 0 || no_segment_elongated || segment_elongated_less_than_three {
+                break;
             } else {
-                break; // cand cannot be eliminated at l and r
+                // merge the left and right segment
+                cand[i - 1].1 += cand[i].1;
+                cand.remove(i);
+                i = i - 1;
             }
         }
 
         if cand.len() == 0 {
             // println!("{tmp} successfully popped starting at {l_start},{r_start}",);
-            output += choices;
+            println!("{:?}", input_c[j].1 + 1);
+            return Ok(());
         }
     }
 
-    println!("{output}");
-
-    Ok(())
+    println!("0");
+    return Ok(());
 }
 
-// idea 1: two pointers? -> O(SN) -> O(N^2) -> TLE
+// idea 1: two pointers? -> O(SC) -> O(N^2) -> TLE
 // for s in segment:
 //   eliminate(s)
 
@@ -128,5 +104,31 @@ pub fn solve_1267_b() -> Result<(), io::Error> {
 //   eliminate:
 //   - do we need to try eliminating every segment?
 //   - do we get any information of surrounding s_(i-1), s_(i+1) with s_(i)?
+//   - doesn't seem like it, segments are not guaranteed to be next to each
+//     other in the input
 
-// WWWBBOOBBWWW
+// any data structures here useful to store information?
+
+// idea 3: is there another approach here? is two pointers~O(SN) two slow by design?
+// - can we get work down to linear?
+// - can we use up some space?
+//   - would char->counts help here? no.
+//   - would char->segment_counts help here?
+//     - not sure how you would progress to seeing if the string is completely eliminatable
+//     - positional information seems key here
+
+// idea 4: can we do something with two pointer positional information but in one pass?
+
+// hint 5: can we *compress* the string before working with it? -> TLE (still).
+// this lifts representation with O(N) so
+// the same segment->eliminate strategy
+// happens in  O(S) rather than O(SC) < O(N^2)
+
+// problem: the representation level i was working with was completely wrong
+//          for the time constraints. characters -> segments
+
+// in: WWWOOOOOOWWW -> in_c: (W:3), (O:6), (W:3)
+
+// TLE:
+//   - segments: not filtering enough or
+//   - eliminate: not breaking early enough
