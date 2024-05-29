@@ -1,4 +1,4 @@
-use std::io;
+use std::{collections::HashMap, io};
 
 pub fn solve_178_a1() -> Result<(), io::Error> {
     let mut line_one = String::new();
@@ -169,5 +169,46 @@ pub fn solve_178_a1() -> Result<(), io::Error> {
     for x in output {
         println!("{:?}", x);
     }
+    Ok(())
+}
+
+#[derive(Debug, PartialOrd, PartialEq, Eq)]
+struct CountToIndexTuple((i32, usize));
+
+impl Ord for CountToIndexTuple {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.cmp(&other.0)
+    }
+}
+
+pub fn solve_1970_a1() -> Result<(), io::Error> {
+    let mut line_one = String::new();
+    io::stdin().read_line(&mut line_one).unwrap();
+
+    let input = line_one.trim().chars().collect::<Vec<_>>();
+    let mut open_counts = Vec::with_capacity(input.len());
+    let mut open_count = 0;
+
+    for (i, c) in input.iter().enumerate() {
+        match c {
+            '(' => {
+                open_counts.push((open_count, i));
+                open_count += 1;
+            }
+            ')' => {
+                open_counts.push((open_count, i));
+                open_count -= 1;
+            }
+            _ => panic!(),
+        }
+    }
+    open_counts.sort();
+
+    let output = open_counts
+        .iter()
+        .map(|(_, i)| input[*i])
+        .collect::<String>();
+    println!("{output}");
+
     Ok(())
 }
