@@ -1,3 +1,3 @@
 fn main() {
-    cf::nine_hundred::solve_1089_l().unwrap();
+    cf::thousand::solve_178_a1().unwrap();
 }
