@@ -1,4 +1,8 @@
-use std::io;
+use std::{
+    cmp::Reverse,
+    collections::{BinaryHeap, HashMap, HashSet},
+    io,
+};
 
 pub fn solve_1267_b() -> Result<(), io::Error> {
     fn segments(inp: &str) -> (Vec<(char, usize)>, Vec<usize>) {
@@ -132,3 +136,195 @@ pub fn solve_1267_b() -> Result<(), io::Error> {
 // TLE:
 //   - segments: not filtering enough or
 //   - eliminate: not breaking early enough
+
+#[derive(Debug, PartialOrd, PartialEq, Eq)]
+struct PersuasionJobTuple((i32, i32));
+
+impl Ord for PersuasionJobTuple {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.cmp(&other.0)
+    }
+}
+
+pub fn solve_1089_l() -> Result<(), io::Error> {
+    let mut line_one = String::new();
+    let mut line_two = String::new();
+    let mut line_three = String::new();
+
+    io::stdin().read_line(&mut line_one).unwrap();
+    io::stdin().read_line(&mut line_two).unwrap();
+    io::stdin().read_line(&mut line_three).unwrap();
+
+    let nk = line_one
+        .trim()
+        .split(" ")
+        .map(|c| c.parse::<i32>().unwrap())
+        .collect::<Vec<_>>();
+
+    let _ = nk[0];
+    let k = nk[1];
+
+    let jobs = line_two
+        .trim()
+        .split(" ")
+        .map(|c| c.parse::<i32>().unwrap())
+        .collect::<Vec<_>>();
+
+    let persuasions = line_three
+        .trim()
+        .split(" ")
+        .map(|c| c.parse::<i32>().unwrap())
+        .collect::<Vec<_>>();
+
+    let mut fulfilled_jobs = HashSet::new();
+    let mut fulfilled_jobs_first_index: HashMap<i32, usize> = HashMap::new();
+    let mut overfilled_jobs_to_persuasions: HashMap<i32, BinaryHeap<Reverse<i32>>> = HashMap::new();
+    let mut overfilled_persuasions = BinaryHeap::new();
+
+    for (i, j) in jobs.iter().enumerate() {
+        if fulfilled_jobs.contains(&j) {
+            overfilled_jobs_to_persuasions
+                .entry(*j)
+                .and_modify(|ofp: &mut BinaryHeap<Reverse<i32>>| {
+                    ofp.push(Reverse(persuasions[i]));
+                })
+                .or_insert({
+                    let mut ofp = BinaryHeap::new();
+                    ofp.push(Reverse(persuasions[i]));
+                    if fulfilled_jobs_first_index.contains_key(j) {
+                        ofp.push(Reverse(
+                            persuasions[*fulfilled_jobs_first_index.get(j).unwrap()],
+                        ));
+                    }
+
+                    ofp
+                });
+            overfilled_persuasions.push(Reverse(PersuasionJobTuple((persuasions[i], *j))));
+            if fulfilled_jobs_first_index.contains_key(j) {
+                overfilled_persuasions.push(Reverse(PersuasionJobTuple((
+                    persuasions[*fulfilled_jobs_first_index.get(j).unwrap()],
+                    *j,
+                ))));
+                fulfilled_jobs_first_index.remove(j);
+            }
+            // println!(
+            //     "inserting overfilled p {} for j {j}",
+            //     persuasions[*fulfilled_jobs_first_index.get(j).unwrap()]
+            // )
+        } else {
+            fulfilled_jobs.insert(j);
+            fulfilled_jobs_first_index.insert(*j, i);
+        }
+    }
+
+    let unfulfilled_jobs =
+        HashSet::<i32>::from_iter((1..=k).into_iter().filter(|x| !fulfilled_jobs.contains(x)));
+
+    // problem: we are underreporting for test case #17.
+    //   - is overfilled_persuasions correctly ordered?
+    //   - are we leaving in persuasions?
+
+    // if overfilled_persuasions is correctly ordered, which is
+    // most plausible since it's a min heap and we are *under*reporting,
+    // then we are most likely not reaching higher cost persuasions
+    // when we should be.
+
+    // ==>something is wrong with the removal logic..
+
+    // cost = 0
+    // for uj in uj:
+    //   (p,ofj) = overfilled_persuasions.pop()
+    //   cost += p
+    //   ofj_ofp[ofj].remove(p)
+    //   if ofj_ofp[j].len() == 1:
+    //     overfilled_persuasions.remove_once(ofj_ofp[j].pop())
+
+    // 12 9
+    // 6 8 2 6 8 2 6 6 6 5 1 1
+    // 59 27 78 92 31 26 59 12 80 77 94 31
+    // unfulfilled jobs: {3, 9, 7, 4}
+    // overfilled persuasions:
+
+    // 12+26+27+31=96
+    // [Reverse((12, 6)), 3
+    // Reverse((26, 2)), 9
+    // Reverse((59, 6)),
+    // Reverse((27, 8)), 7
+    // Reverse((31, 1)), 4
+    // Reverse((78, 2)), <----- cancel
+    // Reverse((59, 6)),
+    // Reverse((92, 6)),
+    // Reverse((80, 6)),
+    // Reverse((31, 8)), <----- cancel
+    // Reverse((94, 1))] <----- cancel
+
+    let mut output = 0;
+    for _ in unfulfilled_jobs {
+        if let Some(Reverse(PersuasionJobTuple((p, ofj)))) = overfilled_persuasions.pop() {
+            // println!("persuading: {:?}", p);
+            output += p;
+
+            overfilled_jobs_to_persuasions
+                .entry(ofj)
+                .and_modify(|ofps| {
+                    // remove p from ofj->ofp
+                    let mut removed = false;
+                    ofps.retain(|Reverse(ofp)| {
+                        if !removed && *ofp == p {
+                            removed = true;
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    });
+
+                    // if the overfilled job is no longer overfilled, (check via overfilled_jobs_to_persuasions)
+                    // remove overfilled persuasion (remove via overfilled_persuasions heap)
+                    if ofps.len() == 1 {
+                        let persuasion_no_longer_overfilled = ofps.pop().unwrap().0;
+                        let mut removed = false;
+                        overfilled_persuasions.retain(|Reverse(PersuasionJobTuple((ofp, _)))| {
+                            if !removed && *ofp == persuasion_no_longer_overfilled {
+                                // println!("goodbye persuasion {p}, bc we used up job {j}");
+                                removed = true;
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        })
+                    }
+                });
+        } else {
+            panic!() // todo
+        }
+    }
+
+    println!("{output}");
+    Ok(())
+}
+
+// editorial: For each job, find the idler with the maximum value of bi, assign
+//            this job to this idler. Pull all remaining idlers in the array,
+//            sort them by the value of bi and assign idlers with *minimum* values
+//            to remaining jobs.
+
+// notes: when having to build complicated state, try doing the converse
+//        i could have assigned idlers to jobs first, so then i would never
+//        have to make any updates to persuasions no longer overfilled.
+
+// still, the assigning part of the problem is taking the minimum.
+// how am i underreporting for test case 17?
+
+// overfilled persuasions:
+// [
+// Reverse(PersuasionJobTuple((12, 6))),
+// Reverse(PersuasionJobTuple((26, 2))),
+// Reverse(PersuasionJobTuple((59, 6))),
+// Reverse(PersuasionJobTuple((27, 8))),
+// Reverse(PersuasionJobTuple((31, 1))),
+// Reverse(PersuasionJobTuple((78, 2))),
+// Reverse(PersuasionJobTuple((59, 6))),
+// Reverse(PersuasionJobTuple((92, 6))),
+// Reverse(PersuasionJobTuple((80, 6))),
+// Reverse(PersuasionJobTuple((31, 8))),
+// Reverse(PersuasionJobTuple((94, 1)))]
