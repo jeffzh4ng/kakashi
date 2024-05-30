@@ -1,4 +1,4 @@
-use std::{collections::HashMap, io};
+use std::io;
 
 pub fn solve_178_a1() -> Result<(), io::Error> {
     let mut line_one = String::new();
