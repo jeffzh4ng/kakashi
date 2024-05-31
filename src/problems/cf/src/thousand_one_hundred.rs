@@ -40,3 +40,5 @@ pub fn solve_292_a() {
 
     println!("{:?} {:?}", last_time, max_queue_size);
 }
+
+pub fn solve_174_a() {}
