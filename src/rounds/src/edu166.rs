@@ -75,7 +75,7 @@ pub fn solve_1976_b() {
         io::stdin().read_line(&mut line_two).unwrap();
         io::stdin().read_line(&mut line_three).unwrap();
 
-        let n = line_one.trim().parse::<i32>().unwrap();
+        let _ = line_one.trim().parse::<i32>().unwrap();
         let input_a = line_two
             .trim()
             .split(" ")
@@ -92,18 +92,18 @@ pub fn solve_1976_b() {
 
     let mut output = Vec::new();
 
-    for (A, B) in input {
+    for (input_a, input_b) in input {
         let mut operations = 0;
 
-        let mut A_last_element = false;
-        let B_last_element = *(B.iter().rev().take(1).collect::<Vec<_>>()[0]);
+        let mut input_a_last_element = false;
+        let input_b_last_element = *(input_b.iter().rev().take(1).collect::<Vec<_>>()[0]);
 
         let mut max_ceil = 0;
         let mut min_floor = 0;
 
         // update a0..an
-        for i in 0..A.len() {
-            if A[i] != B[i] {
+        for i in 0..input_a.len() {
+            if input_a[i] != input_b[i] {
                 // idea 1: ==> O(n^2) ==> TLE for 1e9 test cases
                 // for a in A
                 //   while loop for updating ai
@@ -115,26 +115,28 @@ pub fn solve_1976_b() {
                 // - case 2: inc ai to bi
 
                 // inc or dec
-                let diff = (A[i] - B[i]).abs();
+                let diff = (input_a[i] - input_b[i]).abs();
                 operations += diff;
 
-                let ceil = cmp::max(A[i], B[i]);
-                let floor = cmp::min(A[i], B[i]);
+                let ceil = cmp::max(input_a[i], input_b[i]);
+                let floor = cmp::min(input_a[i], input_b[i]);
 
                 max_ceil = cmp::max(max_ceil, ceil);
                 min_floor = cmp::min(min_floor, floor);
 
                 // copy if last_element is within A[i] - B[i]
-                if (B_last_element <= ceil && B_last_element >= floor) && !A_last_element {
+                if (input_b_last_element <= ceil && input_b_last_element >= floor)
+                    && !input_a_last_element
+                {
                     operations += 1;
-                    A_last_element = true;
+                    input_a_last_element = true;
                 }
             } else {
                 // A[i] = B[i]
                 // so if A[i] == B[-1], we can copy
-                if A[0] == B_last_element && !A_last_element {
+                if input_a[0] == input_b_last_element && !input_a_last_element {
                     operations += 1;
-                    A_last_element = true;
+                    input_a_last_element = true;
                 }
             }
         }
@@ -161,14 +163,14 @@ pub fn solve_1976_b() {
         //
 
         // last element not set ==> B[-1] was never within ceil-floor range
-        if !A_last_element {
+        if !input_a_last_element {
             // take the difference from the closest ceil or floor to B_last_element
             // --find if B_last_element is greater than max_ceil or less than min_floor
 
-            let diff = if B_last_element >= max_ceil {
-                (max_ceil - B_last_element).abs()
-            } else if B_last_element <= min_floor {
-                (min_floor - B_last_element).abs()
+            let diff = if input_b_last_element >= max_ceil {
+                (max_ceil - input_b_last_element).abs()
+            } else if input_b_last_element <= min_floor {
+                (min_floor - input_b_last_element).abs()
                 // else if B_last_element < min_floor {
             } else {
                 // when is this being hit?
