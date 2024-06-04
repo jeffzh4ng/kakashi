@@ -1,5 +1,1 @@
-use std::io;
-
-fn main() {
-    println!("priviet");
-}
+fn main() {}

@@ -28,7 +28,7 @@ pub fn solve_a() -> Result<(), io::Error> {
     let mut output = Vec::new();
 
     for tc in input {
-        let (n, m, input_a) = tc;
+        let (_, m, input_a) = tc;
 
         // char_count
         let mut char_count = std::collections::HashMap::new();
@@ -94,7 +94,7 @@ pub fn solve_b() -> Result<(), io::Error> {
 
     let mut output = Vec::new();
     for tc in input {
-        let (n, f, k, mut input_a) = tc;
+        let (_, f, k, mut input_a) = tc;
 
         let fav = input_a[f - 1];
         input_a.sort();
@@ -187,7 +187,7 @@ pub fn solve_c() -> Result<(), io::Error> {
 
     // let mut output = Vec::new();
     for tc in input {
-        let (input_a, input_b, input_d) = tc;
+        let (_, input_b, input_d) = tc;
 
         // is the a sequence of ijs st a===>(ij_vec)===> b
 
@@ -227,7 +227,7 @@ pub fn solve_c() -> Result<(), io::Error> {
         }
 
         // blunder with these hasher types
-        let b_keys: std::collections::HashSet<i32> = map_b.keys().cloned().collect();
+        let _: std::collections::HashSet<i32> = map_b.keys().cloned().collect();
         // let d_keys: std::collections::HashSet<i32> = map_d.keys().cloned().collect();
 
         // let o = if !b_keys.is_subset(&d_keys) {
@@ -289,8 +289,4 @@ pub fn solve_c() -> Result<(), io::Error> {
     // }
 
     Ok(())
-}
-
-fn main() {
-    solve_c().unwrap();
 }
