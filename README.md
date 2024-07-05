@@ -1,8 +1,8 @@
-# minato
+# kakashi
 
-![](./minato.webp)
+![](./iruka-kakashi.gif)
 
-**minato: software 2.0 models**
+**kakashi: software 2.0 models**
 
 ### References
 **Foundations**
