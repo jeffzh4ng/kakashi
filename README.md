@@ -16,8 +16,8 @@ Although we don't fully understand *how* LLMs work:
 formally understanding the *what* of supervised and unsupervised learning is
 accessible with PAC and AIXI.
 
-- Shalev-Shwartz,Ben-David
-- Mohri, Rostamizadeh ,Talwalkar
+- Shalev-Shwartz, Ben-David
+- Mohri, Rostamizadeh,Talwalkar
 - Hutter, Quarel, Catt
 
 **Deep Learning**
