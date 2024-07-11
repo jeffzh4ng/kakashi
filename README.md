@@ -5,6 +5,8 @@
 **kakashi: software 2.0 models**
 
 ### References
+Models and solvers are formalized in README.tex
+
 **Foundations**
 - Shalev-Shwartz, Ben-David
 - Mohri, Rostamizadeh,Talwalkar
