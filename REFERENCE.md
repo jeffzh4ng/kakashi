@@ -10,6 +10,6 @@ $$
 
 (autoregressive? markov assumption?)
 
-The goal is to approximate $p_\mathbf{X}(\mathbf{x})$ given $\mathcal{D}={(x_1,y_1),...,(x_n,y_n)}$ (assuming $(x_i,y_i)~p$), with some hypothesis $h: \mathcal{X} \mapsto \mathcal {Y}$. With parametric models, this is done by posing parameter estimation as an optimization problem (ERM?) $\operatorname*{argmin}_\theta \mathcal{L}(\theta)$.
+The goal is to approximate $p_\mathbf{X}(\mathbf{x})$ given $\mathcal{D}={(x_1,y_1),...,(x_n,y_n)}$ (assuming $(x_i,y_i)~p$), with some hypothesis $h: \mathcal{X} \mapsto \mathcal {Y}$. With parametric models, this is done by posing parameter estimation as an optimization problem (ERM?) $\mathop{\text{argmin}} \mathcal{L}(\theta)$.
 
 (PAC?, theoretical optimal?)
