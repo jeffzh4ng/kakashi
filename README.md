@@ -4,8 +4,12 @@
 
 **kakashi: software 2.0 models**
 
+The primary focus is to reproduce generative models (GPT2/SD) with deep learning.
+After that, the focus will shift to probabilistic graphical models and reinforcement
+learning.
+
 ### References
-Models and solvers are formalized in REFERENCE.md
+README.pdf covers the developments necessary to understand GPT2 and SD.
 
 **Foundations**
 - Shalev-Shwartz, Ben-David
@@ -14,9 +18,9 @@ Models and solvers are formalized in REFERENCE.md
 
 **Deep Learning**
 - Hardt, Recht
-- Scardapane
 - Murphy
 - Hastie, Tibshirani
+- Scardapane
 - Goodfellow, Bengio
 - Prince
 - Bishop
