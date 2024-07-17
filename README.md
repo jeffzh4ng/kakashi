@@ -14,6 +14,7 @@ README.pdf covers the developments necessary to understand deep generative model
 - Hardt, Recht
 - Murphy
 - Hastie, Tibshirani
+- Mackay
 - Shalev-Shwartz, Ben-David
 - Mohri, Rostamizadeh,Talwalkar
 - Hutter, Quarel, Catt
