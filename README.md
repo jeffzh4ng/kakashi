@@ -4,25 +4,23 @@
 
 **kakashi: software 2.0 models**
 
-The primary focus is to reproduce GPT2/SD.
-
 ### References
 README.pdf covers the developments necessary to understand deep generative models.
 
-**Machine Learning**
+**Learning**
 - Stanley Chan
 - Hardt, Recht
 - Murphy
 - Hastie, Tibshirani
-- Mackay
 - Shalev-Shwartz, Ben-David
-- Mohri, Rostamizadeh,Talwalkar
-- Hutter, Quarel, Catt
-
-**Deep Learning**
+- Mohri, Rostamizadeh, Talwalkar
 - Scardapene
 - Goodfellow, Bengio
 - Prince
 - Bishop
 - Tomczak
 - Jurafsky, Martin
+
+**Search**
+- Achiam
+- Sutton, Barto
