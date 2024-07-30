@@ -5,9 +5,10 @@
 **kakashi: software 2.0 models**
 
 ### References
-README.pdf covers the developments necessary to understand deep generative models.
 
-**Learning**
+**Textbooks**
+
+*Learning*
 - Stanley Chan
 - Hardt, Recht
 - Murphy
@@ -21,6 +22,8 @@ README.pdf covers the developments necessary to understand deep generative model
 - Tomczak
 - Jurafsky, Martin
 
-**Search**
+*Search*
 - Achiam
 - Sutton, Barto
+
+**Papers**
