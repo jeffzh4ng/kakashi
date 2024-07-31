@@ -25,5 +25,3 @@
 *Search*
 - Achiam
 - Sutton, Barto
-
-**Papers**
